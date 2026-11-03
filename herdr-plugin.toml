@@ -1,13 +1,13 @@
 # Herdr plugin manifest for Agent Tree.
 #
-# Install (local):  herdr plugin link /Users/sang/Developer/herdr-agent-tree
-# Open:             herdr plugin action invoke sang.agent-tree.open
+# Install:  herdr plugin install sagwaco/herdr-agent-tree
+# Open:     herdr plugin action invoke herdr-agent-tree
 #
 # A "subagent" is an agent Herdr detected in a pane that another agent just
 # launched. Herdr does not record that link in its API, so the plugin infers it
 # from creation order, tab/workspace, cwd and recent activity. See README.md.
 
-id = "sang.agent-tree"
+id = "herdr-agent-tree"
 name = "Agent Tree"
 version = "0.2.0"
 min_herdr_version = "0.9.5"
@@ -15,7 +15,7 @@ description = "Tree view of agents and the subagents they launched, declared by 
 platforms = ["macos", "linux"]
 
 [[actions]]
-id = "open"
+id = "herdr-agent-tree"
 title = "Agent Tree: open"
 description = "Open or focus the agent tree pane"
 contexts = ["global"]

@@ -5,7 +5,7 @@ description: "Declare the hierarchy of subagents launched in Herdr, and read the
 
 # Agent tree
 
-Herdr does not record who launched whom. The `sang.agent-tree` plugin shows a
+Herdr does not record who launched whom. The `herdr-agent-tree` plugin shows a
 tree of agents and infers parents from pane geometry, focus and cwd, but an
 orchestrator knows the truth. Declare it, and the tree stops guessing.
 
@@ -57,7 +57,7 @@ missed. `agent-tree get` prints only what is declared.
 that file directly:
 
 ```bash
-AT_ROOT="$(herdr plugin list --json | python3 -c 'import json,sys;print(next(p["plugin_root"] for p in json.load(sys.stdin)["result"]["plugins"] if p["plugin_id"]=="sang.agent-tree"))')"
+AT_ROOT="$(herdr plugin list --json | python3 -c 'import json,sys;print(next(p["plugin_root"] for p in json.load(sys.stdin)["result"]["plugins"] if p["plugin_id"]=="herdr-agent-tree"))')"
 node "$AT_ROOT/hier.mjs" set w2:p9Y
 ```
 

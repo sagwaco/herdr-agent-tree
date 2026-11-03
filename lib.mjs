@@ -5,7 +5,7 @@ import { appendFile, mkdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { createConnection } from 'node:net';
 
-export const PLUGIN_ID = 'sang.agent-tree';
+export const PLUGIN_ID = 'herdr-agent-tree';
 export const ENTRYPOINT = 'tree';
 
 const LOG_FILE = 'lineage.jsonl';
@@ -108,7 +108,7 @@ export function seenFromAgent(agent, now, start) {
 }
 
 // The tree an orchestrator declared. Lives in the plugin config dir so agents
-// can find it with `herdr plugin config-dir sang.agent-tree`.
+// can find it with `herdr plugin config-dir herdr-agent-tree`.
 export async function readHierarchy(dir) {
   try {
     return normalizeHierarchy(JSON.parse(await readFile(join(dir, HIERARCHY_FILE), 'utf8')));

@@ -15,14 +15,24 @@ claude  Helium macOS Swift browser chrome  [1 · neon]  idle
 
 ## Install and run
 
+Requires `node` on PATH.
+
 ```bash
-PLUGIN=/Users/sang/Developer/herdr-agent-tree
-herdr plugin link "$PLUGIN"
+herdr plugin install sagwaco/herdr-agent-tree
+herdr plugin action invoke herdr-agent-tree
+```
+
+Optional: put the `agent-tree` CLI and the coding-agent skill on PATH. They point
+into the installed plugin, so re-run this after `herdr plugin update`:
+
+```bash
+PLUGIN="$(herdr plugin list --json | python3 -c 'import json,sys;print(next(p["plugin_root"] for p in json.load(sys.stdin)["result"]["plugins"] if p["plugin_id"]=="herdr-agent-tree"))')"
 ln -sfn "$PLUGIN/hier.mjs" ~/.local/bin/agent-tree                       # CLI on PATH
 ln -sfn "$PLUGIN/skills/agent-tree" ~/.agents/skills/agent-tree          # skill for coding agents
 ln -sfn ../../.agents/skills/agent-tree ~/.claude/skills/agent-tree      # same skill for Claude
-herdr plugin action invoke open --plugin sang.agent-tree
 ```
+
+For development, link a checkout instead: `herdr plugin link /path/to/herdr-agent-tree`.
 
 The action opens a split pane next to the focused pane. Running it again focuses
 the pane that is already open instead of opening a second copy. The pane also
@@ -38,7 +48,7 @@ Bind a key in `~/.config/herdr/config.toml`:
 [[keys.command]]
 key = "prefix+a"
 type = "plugin_action"
-command = "sang.agent-tree.open"
+command = "herdr-agent-tree.herdr-agent-tree"
 description = "agent tree"
 ```
 
@@ -78,7 +88,7 @@ declare it instead of leaving the link to inference. The declaration is a JSON
 file in the plugin config dir:
 
 ```bash
-herdr plugin config-dir sang.agent-tree   # → …/plugins/config/sang.agent-tree
+herdr plugin config-dir herdr-agent-tree   # → …/plugins/config/herdr-agent-tree
 ```
 
 ```json
@@ -128,8 +138,8 @@ models that orchestrate know the API.
 ### Correcting an edge
 
 Create `overrides.json` in the plugin state directory
-(`herdr plugin config-dir sang.agent-tree` shows the config dir; state lives in
-`~/.local/state/herdr/plugins/sang.agent-tree` on macOS/Linux). Map the child's
+(`herdr plugin config-dir herdr-agent-tree` shows the config dir; state lives in
+`~/.local/state/herdr/plugins/herdr-agent-tree` on macOS/Linux). Map the child's
 terminal id or pane id to the parent's:
 
 ```json
