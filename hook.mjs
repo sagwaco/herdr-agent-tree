@@ -9,6 +9,7 @@ import {
   absorbSnapshot, appendRecords, applyDeclared, attribute, buildModel, call, lastFocusKey,
   readHierarchy, readOverrides, readRecords, siblingKeys,
 } from './lib.mjs';
+import { refreshCurrent } from './link.mjs';
 
 const dot = (name) => String(name ?? '').replace(/_/g, '.');
 
@@ -92,6 +93,8 @@ export async function handleEvent({ event, socketPath, stateDir, configDir, now 
 }
 
 async function main() {
+  // After `herdr plugin update`, move the CLI and skill links to this install.
+  await refreshCurrent(process.env.HERDR_PLUGIN_ROOT).catch(() => {});
   const raw = process.env.HERDR_PLUGIN_EVENT_JSON;
   const socketPath = process.env.HERDR_SOCKET_PATH;
   const stateDir = process.env.HERDR_PLUGIN_STATE_DIR;

@@ -21,6 +21,13 @@ description = "Open or focus the agent tree pane"
 contexts = ["global"]
 command = ["node", "open.mjs"]
 
+[[actions]]
+id = "setup"
+title = "Agent Tree: set up CLI and skill"
+description = "Link the agent-tree CLI and the coding-agent skill into your home directory. The links follow plugin updates."
+contexts = ["global"]
+command = ["node", "link.mjs"]
+
 [[panes]]
 id = "tree"
 title = "Agent tree"

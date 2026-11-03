@@ -22,14 +22,21 @@ herdr plugin install sagwaco/herdr-agent-tree
 herdr plugin action invoke herdr-agent-tree
 ```
 
-Optional: put the `agent-tree` CLI and the coding-agent skill on PATH. They point
-into the installed plugin, so re-run this after `herdr plugin update`:
+Optional: put the `agent-tree` CLI and the coding-agent skill on your machine:
 
 ```bash
-PLUGIN="$(herdr plugin list --json | python3 -c 'import json,sys;print(next(p["plugin_root"] for p in json.load(sys.stdin)["result"]["plugins"] if p["plugin_id"]=="herdr-agent-tree"))')"
-ln -sfn "$PLUGIN/hier.mjs" ~/.local/bin/agent-tree                       # CLI on PATH
-ln -sfn "$PLUGIN/skills/agent-tree" ~/.agents/skills/agent-tree          # skill for coding agents
-ln -sfn ../../.agents/skills/agent-tree ~/.claude/skills/agent-tree      # same skill for Claude
+herdr plugin action invoke herdr-agent-tree.setup
+```
+
+This links `~/.local/bin/agent-tree`, `~/.agents/skills/agent-tree` and
+`~/.claude/skills/agent-tree` through `~/.local/share/herdr-agent-tree`, which
+points at the installed plugin. After `herdr plugin update`, the plugin's event
+hook moves that link to the new install, so you do not run setup again. Setup
+never replaces a real file or directory at those paths. Make sure `~/.local/bin`
+is on PATH. To remove them after `herdr plugin uninstall herdr-agent-tree`:
+
+```bash
+rm ~/.local/share/herdr-agent-tree ~/.local/bin/agent-tree ~/.agents/skills/agent-tree ~/.claude/skills/agent-tree
 ```
 
 For development, link a checkout instead: `herdr plugin link /path/to/herdr-agent-tree`.
@@ -163,6 +170,7 @@ supports declaring roots.
 | `skills/agent-tree/SKILL.md` | model-facing instructions for declaring the tree |
 | `tree-ui.mjs` | tree pane; reads the Herdr snapshot + lineage log |
 | `open.mjs` | action; opens or focuses the tree pane |
+| `link.mjs` | `setup` action; links the CLI and skill, and keeps them on the current install |
 | `lib.mjs` | socket RPC, lineage log reducer and parent inference |
 | `test/lineage.test.mjs` | unit tests for inference and geometry |
 | `test/hierarchy.test.mjs` | unit tests for the declared hierarchy |
